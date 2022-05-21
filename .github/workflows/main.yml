@@ -34,7 +34,7 @@ jobs:
           path: dist/
   publish:
     name: Publish on PyPi
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout source
