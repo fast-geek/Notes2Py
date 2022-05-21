@@ -1,5 +1,4 @@
 PyQt6
-PyQt6-Qt6
 PyQt6-sip
 PySide6-Addons
 PySide6-Essentials
