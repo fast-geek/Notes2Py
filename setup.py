@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, __version__
 
 with open("README.md") as f:
     long_description = f.read()
@@ -8,7 +8,7 @@ with open("requirements.txt") as f:
 
 setup(
     name='Notes2Py',
-    version='0.1',
+    version=__version__,
     packages=['notes2py', 'notes2py.ui'],
     license='MIT',
     author='lav.',
