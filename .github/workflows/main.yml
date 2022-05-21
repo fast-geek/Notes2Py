@@ -23,6 +23,8 @@ jobs:
           echo "__version__ = '$VERSION'" > ./notes2py/__version__.py
       - name: Install pypa/build
         run: |
+          pip --version
+          pip install pip setuptools --upgrade
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
           python setup.py sdist bdist_wheel
