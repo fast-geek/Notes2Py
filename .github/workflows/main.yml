@@ -1,0 +1,136 @@
+name: Publish Release to PyPi and GitHub
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  PYTHON_VERSION: '3.10.4'
+
+jobs:
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Change Version
+        run: |
+          VERSION=${GITHUB_REF#refs/*/}
+          echo "__version__ = '$VERSION'" > ./notes2py/__version__.py
+      - name: Install pypa/build
+        run: |
+          pip install -r requirements.txt
+          python setup.py sdist bdist_wheel
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: dist/
+  publish:
+    name: Publish on PyPi
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: package
+          path: dist
+
+      - name: Publish on PyPi
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Package Application
+        run: pip install -r requirements.txt
+
+      - name: Build
+        run: pyinstaller --onefile --noconsole notes2py\__main__.py -n Notes2Py
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Notes2Py
+          path: ./dist/Notes2Py.exe
+
+  build-mac:
+
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Package Application
+        run: pip3 install -r requirements.txt
+
+      - name: Build
+        run: pyinstaller --onefile --noconsole notes2py/__main__.py -n Notes2Py
+
+      - id: Zip
+        run: cd dist && zip -r Notes2Py.zip Notes2Py.app
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Notes2Py
+          path: ./dist/Notes2Py.zip
+
+  upload:
+
+    runs-on: ubuntu-latest
+    needs: [ build-windows, build-mac]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download built artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: Notes2Py
+          path: dist
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: PySender ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Windows Release Asset
+        id: upload-release-asset-wn
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/Notes2Py.exe
+          asset_name: Notes2Py-Windows.exe
+          asset_content_type: application/exe
+
+      - name: Upload MacOS Release Asset
+        id: upload-release-asset-mac
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/Notes2Py.zip
+          asset_name: Notes2Py-MacOS.zip
+          asset_content_type: application/zip
