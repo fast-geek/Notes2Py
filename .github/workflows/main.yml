@@ -23,11 +23,10 @@ jobs:
           echo "__version__ = '$VERSION'" > ./notes2py/__version__.py
       - name: Install pypa/build
         run: |
-          pip --version
-          pip install pip setuptools --upgrade
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
-          python setup.py sdist bdist_wheel
+          pip3 install pip setuptools --upgrade
+          pip3 install -r requirements.txt
+          pip3 install -r requirements-dev.txt
+          python3 setup.py sdist bdist_wheel
 
       - uses: actions/upload-artifact@v2
         with:
