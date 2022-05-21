@@ -1,4 +1,6 @@
-from setuptools import setup, __version__
+from setuptools import setup
+
+from notes2py.__version__ import __version__
 
 with open("README.md") as f:
     long_description = f.read()
