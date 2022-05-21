@@ -20,6 +20,7 @@ jobs:
       - name: Change Version
         run: |
           VERSION=${GITHUB_REF#refs/*/}
+          echo $VERSION
           echo "__version__ = '$VERSION'" > ./notes2py/__version__.py
       - name: Install pypa/build
         run: |
