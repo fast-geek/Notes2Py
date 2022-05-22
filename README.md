@@ -2,6 +2,8 @@
 
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/67208948/169688104-c3265623-440c-490c-8d6e-0a5a9c728725.png">
 
+## [Презентация](https://www.canva.com/design/DAFBZjBsIfw/oNhdZFNi7maCqzUgiN9GVg/view)
+
 ## Установка
 
 Мной были предусмотрены целых 3 способа установки приложения, они расположены в порядке возрастания сложности, все они подробно описаны в инструкции
