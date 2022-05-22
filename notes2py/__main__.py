@@ -45,7 +45,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.name_field.setText(self.session.get(doc_id=self.notes_list.currentRow() + 1)["name"])
 
 
-if __name__ == "__main__":
+def main():
     db_session = TinyDB(os.path.join(Path(__file__).parent.parent, "database.json"))
     db_session.default_table_name = "notes"
     app = QtWidgets.QApplication(sys.argv)
@@ -53,3 +53,7 @@ if __name__ == "__main__":
     window.notes_list.addItems([item['name'] for item in db_session.all()])
     window.show()
     app.exec()
+
+
+if __name__ == "__main__":
+    main()
