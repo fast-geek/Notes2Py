@@ -1,6 +1,8 @@
 # Notes2Py
 
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/67208948/169688104-c3265623-440c-490c-8d6e-0a5a9c728725.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/67208948/169695553-4a6ca56c-a4f2-4659-b10e-5326fdbd1c08.png">
+
+## [Презентация](https://www.canva.com/design/DAFBZjBsIfw/oNhdZFNi7maCqzUgiN9GVg/view)
 
 ## Установка
 
