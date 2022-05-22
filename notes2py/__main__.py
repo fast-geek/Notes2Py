@@ -31,10 +31,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def save_note_handler(self):
         if self.notes_list.currentRow() != -1:
+            name = self.name_field.text()
+            name = "Без названия" if name == "" else name
             self.session.update(
                 {
                     "text": self.textEdit.toPlainText(),
-                    "name": self.name_field.text(),
+                    "name": name,
                 },
                 cond=where("id") == self.notes_list.currentRow(),
             )
@@ -54,7 +56,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def show_note_handler(self):
         Note = Query()
-        if self.notes_list.count() == 1:
+        if len(self.session.all()) == 0 or self.notes_list.currentRow() == -1:
             self.save_note.setVisible(False)
             self.delete_note.setVisible(False)
             self.name_field.setVisible(False)
