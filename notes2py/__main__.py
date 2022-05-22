@@ -67,7 +67,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.name_field.setVisible(True)
             self.name_label.setVisible(True)
             self.textEdit.setVisible(True)
-        print(self.notes_list.currentRow())
         current_id = int(
             self.session.search(Note.id == int(self.notes_list.currentRow()))[0]["id"]
         )
