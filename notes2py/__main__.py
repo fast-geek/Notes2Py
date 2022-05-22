@@ -43,6 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def delete_note_handler(self):
         Note = Query()
+        self.notes_list.takeItem(self.notes_list.currentIndex().row())
         self.session.remove(Note.id == int(self.notes_list.currentRow()))
         items = [
             {"id": index, "name": item["name"], "text": item["text"]}
@@ -50,15 +51,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         ]
         self.session.truncate()
         self.session.insert_multiple(items)
-        self.notes_list.takeItem(self.notes_list.currentIndex().row())
 
     def show_note_handler(self):
         Note = Query()
-        self.save_note.setVisible(True)
-        self.delete_note.setVisible(True)
-        self.name_field.setVisible(True)
-        self.name_label.setVisible(True)
-        self.textEdit.setVisible(True)
+        if self.notes_list.count() == 1:
+            self.save_note.setVisible(False)
+            self.delete_note.setVisible(False)
+            self.name_field.setVisible(False)
+            self.name_label.setVisible(False)
+            self.textEdit.setVisible(False)
+            return
+        else:
+            self.save_note.setVisible(True)
+            self.delete_note.setVisible(True)
+            self.name_field.setVisible(True)
+            self.name_label.setVisible(True)
+            self.textEdit.setVisible(True)
+        print(self.notes_list.currentRow())
         current_id = int(
             self.session.search(Note.id == int(self.notes_list.currentRow()))[0]["id"]
         )
