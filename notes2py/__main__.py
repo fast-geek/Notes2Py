@@ -64,7 +64,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
 def main():
-    db_session = TinyDB(os.path.join(Path(__file__).parent.parent, "database.json"))
+    db_session = TinyDB(os.path.join(Path(__file__).parent, "database.json"))
     db_session.default_table_name = "notes"
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow(db_session)
