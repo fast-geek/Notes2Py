@@ -9,24 +9,20 @@ with open("requirements.txt") as f:
     requirements = f.readlines()
 
 setup(
-    name='Notes2Py',
+    name="Notes2Py",
     version=__version__,
-    packages=['notes2py', 'notes2py.ui'],
-    license='MIT',
-    author='lav.',
-    author_email='me@lavn.ml',
-    description='PyQt app to manage your notes',
+    packages=["notes2py", "notes2py.ui"],
+    license="MIT",
+    author="lav.",
+    author_email="me@lavn.ml",
+    description="PyQt app to manage your notes",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    keywords='python pyqt notes',
-    url='https://github.com/fast-geek/Notes2Py',
-    python_requires='>=3.6.1',
+    long_description_content_type="text/markdown",
+    keywords="python pyqt notes",
+    url="https://github.com/fast-geek/Notes2Py",
+    python_requires=">=3.6.1",
     install_requires=requirements,
-    entry_points={
-        'console_scripts': [
-            'notes2py = notes2py:main'
-        ]
-    },
+    entry_points={"console_scripts": ["notes2py = notes2py:main"]},
     project_urls={
         "Homepage": "https://github.com/fast-geek/Notes2Py",
     },

@@ -24,7 +24,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             {
                 "id": self.notes_list.count() - 1,
                 "name": "Новая заметка",
-                "text": "Текст заметки"
+                "text": "Текст заметки",
             }
         )
         self.notes_list.setCurrentRow(self.notes_list.count() - 1)
@@ -36,16 +36,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     "text": self.textEdit.toPlainText(),
                     "name": self.name_field.text(),
                 },
-                cond=where("id") == self.notes_list.currentRow()
+                cond=where("id") == self.notes_list.currentRow(),
             )
             self.notes_list.clear()
-            self.notes_list.addItems([item['name'] for item in self.session.all()])
+            self.notes_list.addItems([item["name"] for item in self.session.all()])
 
     def delete_note_handler(self):
         Note = Query()
         self.session.remove(Note.id == int(self.notes_list.currentRow()))
-        items = [{"id": index, "name": item['name'], "text": item['text']} for index, item in
-                 enumerate(self.session.all())]
+        items = [
+            {"id": index, "name": item["name"], "text": item["text"]}
+            for index, item in enumerate(self.session.all())
+        ]
         self.session.truncate()
         self.session.insert_multiple(items)
         self.notes_list.takeItem(self.notes_list.currentIndex().row())
@@ -57,7 +59,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.name_field.setVisible(True)
         self.name_label.setVisible(True)
         self.textEdit.setVisible(True)
-        current_id = int(self.session.search(Note.id == int(self.notes_list.currentRow()))[0]['id'])
+        current_id = int(
+            self.session.search(Note.id == int(self.notes_list.currentRow()))[0]["id"]
+        )
         note = self.session.search(Note.id == current_id)[0]
         self.textEdit.setText(note["text"])
         self.name_field.setText(note["name"])
@@ -68,7 +72,7 @@ def main():
     db_session.default_table_name = "notes"
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow(db_session)
-    window.notes_list.addItems([item['name'] for item in db_session.all()])
+    window.notes_list.addItems([item["name"] for item in db_session.all()])
     window.save_note.setVisible(False)
     window.delete_note.setVisible(False)
     window.name_field.setVisible(False)
